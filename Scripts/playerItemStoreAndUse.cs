@@ -1,8 +1,8 @@
 ﻿/*--------
- Program: itemBoxRollItems
+ Program: temStoreAndUse
  Author: Chok Chia Hsiang
  Date Created: 5th May 2018
- Date Last Modified: 24th June 2018
+ Date Last Edited: 15th July 2018
  Description: Script to manage item box interactions and items rewarded to players
  -------*/
 
@@ -17,7 +17,7 @@ public class playerItemStoreAndUse : MonoBehaviour {
 	//Playe Rigidbody
 	public Rigidbody playerRigidbody;
 
-	//Grappling Hook Values
+	//Grappling Hook Values //I might kill this.
 	public Transform cam;
 	private RaycastHit hit;
 	private bool hooked;
@@ -27,14 +27,14 @@ public class playerItemStoreAndUse : MonoBehaviour {
 	public float step;
 
 	//Item Generation Point
-	public Transform itemSpawn;
+	public Transform itemSpawn; //Where the items will spawn
 
 	//Item GameObjects
 	public GameObject grapplePrefab; //Grappling hook
 	public GameObject trapPrefab;	//The trap itself
 	public GameObject stunTrapPrefab; //The stun trap itself
 
-	//Item Class to determine items.
+	//itemBoxRollItems Class to determine items.
 	public itemBoxRollItems itemRoll;
 
 	// Use this for initialization
@@ -49,7 +49,7 @@ public class playerItemStoreAndUse : MonoBehaviour {
 	void Update () {
 
 		//Functions for each item fire
-		//[PH] SPeed boost and Jump boost
+		//[PH] pPeed boost and Jump boost
 		//grappleFire ();
 		trapFire ();
 		stunGunFire ();
@@ -105,7 +105,7 @@ public class playerItemStoreAndUse : MonoBehaviour {
 	//Fire Slow Trap
 	void trapFire(){
 
-		if (itemRoll.getTrap == true) {
+		if (itemRoll.getSlowTrap == true) {
 
 			if (Input.GetKeyDown (KeyCode.E)) {
 
@@ -113,7 +113,7 @@ public class playerItemStoreAndUse : MonoBehaviour {
 
 				trap.GetComponent<Rigidbody>().velocity = trap.transform.forward * 2;  //Apply velocity to trap (Drop)
 
-				itemRoll.getTrap = false;
+				itemRoll.getSlowTrap = false;
 
 			}
 		}
@@ -123,7 +123,7 @@ public class playerItemStoreAndUse : MonoBehaviour {
 	//Fire Stun Trap
 	void stunGunFire(){
 
-		if (itemRoll.getStunGun == true) {
+		if (itemRoll.getStunTrap == true) {
 
 			if (Input.GetKeyDown (KeyCode.E)) {
 
@@ -131,7 +131,7 @@ public class playerItemStoreAndUse : MonoBehaviour {
 
 				trap.GetComponent<Rigidbody>().velocity = trap.transform.forward * 20; //Apply velocity to trap (Throw)
 
-				itemRoll.getStunGun = false;
+				itemRoll.getStunTrap = false;
 
 			}
 		}

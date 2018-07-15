@@ -1,8 +1,8 @@
 ﻿/*--------
- Program: mainmenuController
+ Program: mainmenuButtonController
  Author: Chok Chia Hsiang
  Date Created: 10th July 2018
- Description: Script to manage item box interactions and items rewarded to players
+ Description: Script to manage main menu button functions
  -------*/
 
 using System.Collections;

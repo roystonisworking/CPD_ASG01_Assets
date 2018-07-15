@@ -1,8 +1,8 @@
 ﻿	/*--------
  Program: itemBoxRollItems
- Author: Matthew Lau (edited by Chok Chia Hsiang)
+ Author: Chok Chia Hsiang
  Date Created: 21 April 2018
- Date Last Modified: 24th June 2018
+ Date Last Modified: 15th July 2018
  Description: Script to manage item box interactions and items rewarded to players
  -------*/
 
@@ -14,39 +14,37 @@ using UnityEngine.UI;
 
 public class itemBoxRollItems : MonoBehaviour {
 
+    //**VARIABLES**
 
-	private int roll = 0;
-	private float rollTimer = 3.0f;
+    //"Spin the wheel"
+	private int roll = 0; //Determines what item will be given
+	private float rollTimer = 3.0f; //Delay of which item will be rolled and given
+	private bool rolling = false; //Wether item is being rolled or not
+    
+	public bool getSpeedBoost = false;//Wether you got the Speed Boost or not
+	public bool getJumpBoost = false;//Wether you got the Jump Boost or not
+	public bool getGrapplingHook = false;//Wether you got the Grappling Hook or not
+	public bool getStunTrap = false;//Wether you get the Stun Trap or not
+    public bool getSlowTrap = false;//Wether you get the Slow Trap or not
 
-	private bool rolling = false;
-	public bool getSpeedBoost = false;
-	public bool getJumpBoost = false;
-	public bool getGrapplingHook = false;
-	public bool getStunGun = false;
-	public bool getTrap = false;
+	public Text rollDisplay;//UI text for diplaying what powerup is held
 
-	public Text rollDisplay;
+	private GameObject itemBox;//Item box GameObject
 
-	private GameObject itemBox;
+	public playerMovement playerStatus;//playerMovement class called.
 
-	public playerMovement playerStatus;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		rollUIDisplay();
+		rollUIDisplay(); // Updating UI 
 		
 	}
 
 	//UI displaying item stored
 	void rollUIDisplay(){
 
-		if (rolling && !playerStatus.isBoosting && !playerStatus.isSpringing && !getStunGun && !getTrap && !getGrapplingHook) {
+		if (rolling && !playerStatus.isBoosting && !playerStatus.isSpringing && !getStunTrap && !getSlowTrap && !getGrapplingHook) {
 
 			rollDisplay.text = "Item Roll:" + "Rolling";
 
@@ -58,13 +56,13 @@ public class itemBoxRollItems : MonoBehaviour {
 
 			rollDisplay.text = "Item Roll:" + "Jump Boosted";
 
-		} else if (getStunGun) {
+		} else if (getStunTrap) {
 
-			rollDisplay.text = "Item Roll:" + "Stun Gun Get";
+			rollDisplay.text = "Item Roll:" + "Stun Trap Get";
 
-		} else if (getTrap) {
+		} else if (getSlowTrap) {
 
-			rollDisplay.text = "Item Roll:" + "Trap Get";
+			rollDisplay.text = "Item Roll:" + "Slow Trap Get";
 
 		} else if (getGrapplingHook) {
 
@@ -81,71 +79,67 @@ public class itemBoxRollItems : MonoBehaviour {
 	//Roll items
 	private void OnControllerColliderHit (ControllerColliderHit hit) {
 		
+        //IF player hits an item box
 		if (hit.gameObject.tag == "Item Box") {
 
-			roll = Random.Range (1, 100);
-			//Debug.Log (roll);
+			roll = Random.Range (1, 100); //Determing item awarded
 
-			itemBox = hit.gameObject;
+			itemBox = hit.gameObject; //Assigning item box under itemBox GameObject in this script (Before being destroyed)
 
-			//cc IF player doesnt have item on him
+			//IF player doesnt have item on him or is rolling
 			if (playerStatus.isHoldingItem == false || !rolling){
 				
-			//checkRoll ();
-			StartCoroutine (startRoll ());
-			rolling = true;
-			Destroy (itemBox);
-			playerStatus.isHoldingItem = true;
-
+			StartCoroutine (startRoll ()); //Initiate rolling
+			rolling = true; //Is currently rolling
+			Destroy (itemBox); //Destroying the item box
+			playerStatus.isHoldingItem = true;//Player is holding an item (Technically an unknown item since not rolled yet.
+            
+            //IF player does have an item or is rolling
 			}else if(playerStatus.isHoldingItem == true || rolling){
 
-				Destroy (itemBox);
+				Destroy (itemBox); //Destroying the item box only
 			
 			}
 
 		}
 	}
 
+    //Rolling for itmes
 	IEnumerator startRoll(){
 		
-		yield return new WaitForSeconds (rollTimer);
+		yield return new WaitForSeconds (rollTimer); //Delayed before actual roll
 
-		rolling = false;
-		checkRoll ();
+		rolling = false; //Not rolling for items
+		checkRoll (); //Award items after roll
 
 	}
 
 		//Award items based on roll
 		void checkRoll(){
 			
-			//Grappling Hook (
+			//Rolled Grappling Hook 
 			if (roll >= 1 && roll <=5){
 				
-				Debug.Log("Grappling Hook Get!");
-				getGrapplingHook = true;
+				getGrapplingHook = true; 
 
-			//Stun Gun
+			//Rolled Stun Trap
 			}if (roll >= 6 && roll <=20){
-			
-				Debug.Log("Stun Gun Get!");
-				getStunGun = true;
+		
+				getStunTrap = true;
 
-			//Trap
+			//Rolled Slow Trap
 			}if (roll >= 21 && roll <=35){
 			
-				Debug.Log("Trap Get!");
-				getTrap = true;
+                getSlowTrap = true;
 
-			//Speed Boost
+			//Rolled Speed Boost
 			}if (roll >= 36 && roll <=70){
 			
-				Debug.Log("Speed Boost Get!");
 				getSpeedBoost = true;
 
-			//Jump Boost
+			//Rolled Jump Boost
 			}if (roll >= 71 && roll <=100){
 			
-				Debug.Log("Jump Boost Get!");
 				getJumpBoost = true;
 
 			}
