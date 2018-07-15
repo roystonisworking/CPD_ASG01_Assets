@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class lookAtMouse : MonoBehaviour {
 
+
+	//***VARIABLES
+
 //	Vector3 positionOnScreen;
 //	Vector3 mouseOnScreen;
 //	Vector3 forward;
-//
+
 
 	private Vector3 worldPos;
 
@@ -41,6 +44,8 @@ public class lookAtMouse : MonoBehaviour {
 		mainPlayer.transform.LookAt (lookDirection);
 
 
+		//In case if needed
+
 //		mouseOnScreen = Input.mousePosition;
 //
 //		Debug.Log ("mousey" + mouseOnScreen);
@@ -50,7 +55,7 @@ public class lookAtMouse : MonoBehaviour {
 //		forward = positionOnScreen - mainPlayer.transform.position;
 //
 //		mainPlayer.transform.rotation = Quaternion.LookRotation(forward, Vector3.up);
-//
+
 	}
 
 

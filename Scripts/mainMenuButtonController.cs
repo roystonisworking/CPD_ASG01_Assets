@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 
 public class mainMenuButtonController : MonoBehaviour {
 
+	//***ACCESSED BY UI***
 
 	//Goes to Level Select
 	public void levelSelect() {
